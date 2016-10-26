@@ -19,21 +19,34 @@ namespace Demo_DelegateDictionaryPattern_Menu
 
         static void Main(string[] args)
         {
-            Dictionary<MenuOption, Action> menuActionMap = new Dictionary<MenuOption, Action>();
+            DisplayOpeningScreen();
 
-            menuActionMap.Add(MenuOption.DisplayName, DisplayAddress);
-            menuActionMap.Add(MenuOption.DisplayAddress, DisplayName);
+            //
+            // instantiate and initialize values in dictionary
+            //
+            Dictionary<MenuOption, Action> menuActionMap = new Dictionary<MenuOption, Action>();
+            menuActionMap.Add(MenuOption.DisplayName, DisplayName);
+            menuActionMap.Add(MenuOption.DisplayAddress, DisplayAddress);
             menuActionMap.Add(MenuOption.Quit, Quit);
 
             MenuOption menuChoice = MenuOption.None;
 
-            menuChoice = DisplayGetMenuChoice();
+            bool quitting = false;
+            while (!quitting)
+            {
+                //
+                // get menu choice from user
+                //
+                menuChoice = DisplayGetMenuChoice();
 
-            if (menuActionMap.ContainsKey(menuChoice))
-                menuActionMap[menuChoice]();
-            else
-                Console.WriteLine("Invalid Choice");
-
+                //
+                // implement menu choice
+                //
+                if (menuActionMap.ContainsKey(menuChoice))
+                    menuActionMap[menuChoice]();
+                else
+                    Console.WriteLine("Invalid Choice");
+            }
         }
 
         private static MenuOption DisplayGetMenuChoice()
@@ -56,15 +69,12 @@ namespace Demo_DelegateDictionaryPattern_Menu
 
             menuChoice = (MenuOption)int.Parse(Console.ReadLine());
 
-            DisplayContinuePrompt();
-
             return menuChoice;
-
-
         }
 
         private static void Quit()
         {
+            DisplayClosingScreen();
             Environment.Exit(1);
         }
 
@@ -75,7 +85,6 @@ namespace Demo_DelegateDictionaryPattern_Menu
             Console.WriteLine();
             Console.WriteLine("John E Velis");
             Console.WriteLine();
-            Console.WriteLine("Press any key to continue.");
 
             DisplayContinuePrompt();
         }
@@ -88,7 +97,31 @@ namespace Demo_DelegateDictionaryPattern_Menu
             Console.WriteLine("6625 Echo Valley Road");
             Console.WriteLine("Empire, MI 49630");
             Console.WriteLine();
-            Console.WriteLine("Press any key to continue.");
+
+            DisplayContinuePrompt();
+        }
+
+        static void DisplayOpeningScreen()
+        {
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Demonstration");
+            Console.WriteLine("Using the Delegate Dictionary Pattern to Manage a Menu");
+            Console.WriteLine();
+            Console.WriteLine();
+
+            DisplayContinuePrompt();
+        }
+
+        static void DisplayClosingScreen()
+        {
+            Console.Clear();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Thank you for using our application");
+            Console.WriteLine();
+            Console.WriteLine();
 
             DisplayContinuePrompt();
         }
