@@ -12,7 +12,7 @@ namespace Demo_DelegateDictionaryPattern_Menu
         public enum MenuOption
         {
             None,
-            DisplayName,
+            DisplayName = 1,
             DisplayAddress,
             Quit
         }
@@ -32,22 +32,35 @@ namespace Demo_DelegateDictionaryPattern_Menu
             if (menuActionMap.ContainsKey(menuChoice))
                 menuActionMap[menuChoice]();
             else
-                throw new Exception("Menu choice not valid.");
+                Console.WriteLine("Invalid Choice");
 
         }
 
         private static MenuOption DisplayGetMenuChoice()
         {
             MenuOption menuChoice = MenuOption.None;
+            int menuChoiceNumber = 1;
 
             DisplayHeader("Main Menu");
 
             foreach (MenuOption menuItem in Enum.GetValues(typeof(MenuOption)))
             {
-                Console.WriteLine(ToLabelFormat(menuItem.ToString()));
+                if (menuItem != MenuOption.None)
+                {
+                    Console.WriteLine((int)menuItem + ") " + ToLabelFormat(menuItem.ToString()));
+                    menuChoiceNumber++;
+                }
             }
 
+            Console.Write("Menu Choice: ");
+
+            menuChoice = (MenuOption)int.Parse(Console.ReadLine());
+
+            DisplayContinuePrompt();
+
             return menuChoice;
+
+
         }
 
         private static void Quit()
